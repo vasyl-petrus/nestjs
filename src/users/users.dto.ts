@@ -11,3 +11,11 @@ export class CreateUserDto {
   @Field()
   password: string;
 }
+
+@InputType()
+export class SignInDto {
+  @Field()
+  email: string;
+  @Field()
+  password: string;
+}

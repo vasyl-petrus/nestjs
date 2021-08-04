@@ -1,9 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Schema as MongooseSchema } from 'mongoose';
 import { User } from './user.schema';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from './users.dto';
 import { UsersService } from './users.service';
-
 @Resolver()
 export class UsersResolver {
   constructor(private usersService: UsersService) {}
