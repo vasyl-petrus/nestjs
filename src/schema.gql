@@ -11,10 +11,17 @@ input CreateUserDto {
 
 type Mutation {
   createUser(payload: CreateUserDto!): User!
+  signIn(payload: SignInDto!): User!
+  signUp(payload: CreateUserDto!): User!
 }
 
 type Query {
   user(_id: String!): User!
+}
+
+input SignInDto {
+  email: String!
+  password: String!
 }
 
 type User {
