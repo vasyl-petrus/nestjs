@@ -9,7 +9,7 @@ export class Token {
   _id: MongooseSchema.Types.ObjectId;
 
   @Field()
-  @Prop()
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
   user_id: MongooseSchema.Types.ObjectId;
 
   @Field()

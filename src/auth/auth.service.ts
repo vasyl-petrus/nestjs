@@ -10,7 +10,7 @@ import { addDays } from 'date-fns';
 
 import { TokenService } from 'src/token/token.service';
 import { UserTokenDto } from 'src/token/token.dto';
-import { CreateUserDto } from 'src/users/users.dto';
+import { CreateUserDto, UserDto } from 'src/users/users.dto';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/users/user.schema';
 
@@ -22,15 +22,15 @@ export class AuthService {
     private readonly userService: UsersService,
   ) {}
 
-  async signUp(newUser: CreateUserDto): Promise<User> {
+  async signUp(newUser: CreateUserDto): Promise<UserDto> {
     const user = await this.userService.getByEmail(newUser.email);
-    if (!user) {
-      return await this.userService.create(newUser);
-    }
+
+    if (!user) return await this.userService.create(newUser);
+
     return user;
   }
 
-  async signIn({ email, password }): Promise<User> {
+  async signIn({ email, password }): Promise<UserDto> {
     const user = await await this.userService.getByEmail(email);
 
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -49,7 +49,7 @@ export class AuthService {
       });
       delete user.password;
 
-      return Object.assign(user, { accessToken: token });
+      return Object.assign(user, { token: token });
     }
     throw new BadRequestException('Invalid credentials');
   }

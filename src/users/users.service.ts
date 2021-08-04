@@ -5,7 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Schema as MongooseSchema } from 'mongoose';
 
 import { User, UserDocument } from './user.schema';
-import { CreateUserDto } from './users.dto';
+import { CreateUserDto, UpdateUserDto } from './users.dto';
 
 @Injectable()
 export class UsersService {
@@ -17,6 +17,10 @@ export class UsersService {
       Object.assign(payload, { password: hash }),
     );
     return createdPerson.save();
+  }
+
+  async update(userId: MongooseSchema.Types.ObjectId, payload: UpdateUserDto) {
+    return this.userModel.updateOne({ _id: userId }, { $set: payload });
   }
 
   getById(_id: MongooseSchema.Types.ObjectId) {

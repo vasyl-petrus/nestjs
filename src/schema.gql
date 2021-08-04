@@ -25,10 +25,10 @@ input CreateUserDto {
 
 type Mutation {
   createBoard(payload: CreateBoardDto!): Board!
-  createUser(payload: CreateUserDto!): User!
-  signIn(payload: SignInDto!): User!
+  signIn(payload: SignInDto!): UserDto!
   signUp(payload: CreateUserDto!): User!
   updateBoard(id: String!, payload: CreateBoardDto!): Board!
+  updateUser(payload: UpdateUserDto!): User!
 }
 
 type Query {
@@ -41,10 +41,23 @@ input SignInDto {
   password: String!
 }
 
+input UpdateUserDto {
+  first_name: String!
+  last_name: String!
+}
+
 type User {
   _id: String!
   email: String!
   first_name: String!
   last_name: String!
   password: String!
+}
+
+type UserDto {
+  email: String!
+  first_name: String!
+  last_name: String!
+  password: String!
+  token: String!
 }
