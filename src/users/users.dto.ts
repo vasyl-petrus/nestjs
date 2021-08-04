@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateUserDto {
@@ -9,7 +9,15 @@ export class CreateUserDto {
   @Field()
   email: string;
   @Field()
-  password: string;
+  password?: string;
+}
+
+@InputType()
+export class UpdateUserDto {
+  @Field()
+  first_name: string;
+  @Field()
+  last_name: string;
 }
 
 @InputType()
@@ -18,4 +26,18 @@ export class SignInDto {
   email: string;
   @Field()
   password: string;
+}
+
+@ObjectType()
+export class UserDto {
+  @Field()
+  first_name: string;
+  @Field()
+  last_name: string;
+  @Field()
+  email: string;
+  @Field()
+  password: string;
+  @Field()
+  token?: string;
 }

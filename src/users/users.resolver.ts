@@ -1,7 +1,10 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Schema as MongooseSchema } from 'mongoose';
+import { GqlAuthGuard } from 'src/auth/auth.gaurd';
+import { CurrentUser } from './current-user.decorator';
 import { User } from './user.schema';
-import { CreateUserDto } from './users.dto';
+import { UpdateUserDto } from './users.dto';
 import { UsersService } from './users.service';
 @Resolver()
 export class UsersResolver {
@@ -15,7 +18,11 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  async createUser(@Args('payload') payload: CreateUserDto) {
-    return this.usersService.create(payload);
+  @UseGuards(GqlAuthGuard)
+  async updateUser(
+    @CurrentUser() user: User,
+    @Args('payload') payload: UpdateUserDto,
+  ) {
+    return this.usersService.update(user._id, payload);
   }
 }
