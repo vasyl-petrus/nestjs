@@ -19,8 +19,10 @@ export class ColumnsResolver {
 
   @Mutation(() => Column)
   @UseGuards(GqlAuthGuard)
-  async addColumn(@Args('payload') payload: CreateColumnDto): Promise<Column> {
-    return this.columnsService.addColumn(payload);
+  async createColumn(
+    @Args('payload') payload: CreateColumnDto,
+  ): Promise<Column> {
+    return this.columnsService.createColumn(payload);
   }
 
   @Mutation(() => Column)

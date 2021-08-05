@@ -19,7 +19,7 @@ export class ColumnsService {
     return this.columnModel.findById(id).exec();
   }
 
-  async addColumn(column: CreateColumnDto): Promise<Column> {
+  async createColumn(column: CreateColumnDto): Promise<Column> {
     const newColumn = new this.columnModel(column);
     return await newColumn.save();
   }
