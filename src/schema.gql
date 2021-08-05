@@ -12,6 +12,13 @@ input BoardDto {
   title: String!
 }
 
+type Card {
+  _id: String!
+  author_id: String!
+  column_id: String!
+  title: String!
+}
+
 type Column {
   _id: String!
   board_id: String!
@@ -19,6 +26,12 @@ type Column {
 }
 
 input CreateBoardDto {
+  title: String!
+}
+
+input CreateCardDto {
+  author_id: String!
+  column_id: String!
   title: String!
 }
 
@@ -35,17 +48,21 @@ input CreateUserDto {
 }
 
 type Mutation {
-  addColumn(payload: CreateColumnDto!): Column!
   createBoard(payload: CreateBoardDto!): Board!
+  createCard(payload: CreateCardDto!): Card!
+  createColumn(payload: CreateColumnDto!): Column!
   signIn(payload: SignInDto!): UserDto!
   signUp(payload: CreateUserDto!): User!
   updateBoard(id: String!, payload: CreateColumnDto!): Column!
+  updateCard(id: String!, payload: CreateCardDto!): Card!
   updateUser(payload: UpdateUserDto!): User!
 }
 
 type Query {
   board(payload: BoardDto!): Board!
+  getAll: Card!
   getAllColumns: [Column!]!
+  getById(id: String!): Card!
   user(_id: String!): User!
 }
 
