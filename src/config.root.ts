@@ -7,6 +7,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 const defaults = {
   dbUrl: 'mongodb://localhost:27017/nest',
   graphQlSchemaPath: 'src/schema.gql',
+  port: 3000,
 };
 
 export const configModule = ConfigModule.forRoot({
@@ -27,5 +28,7 @@ export const configGraphQModule = GraphQLModule.forRoot({
   playground: true,
   debug: false,
 });
+
+export const port = process.env.PORT || defaults.port;
 
 export default [configModule, configDbModule, configGraphQModule];
