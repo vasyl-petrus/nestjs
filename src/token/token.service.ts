@@ -11,13 +11,13 @@ export class TokenService {
     @InjectModel(Token.name) private tokenModel: Model<TokenDocument>,
   ) {}
 
-  create(payload: UserTokenDto) {
+  async create(payload: UserTokenDto) {
     const createdToken = new this.tokenModel(payload);
-    return createdToken.save();
+    return await createdToken.save();
   }
 
-  getById(_id: MongooseSchema.Types.ObjectId) {
-    return this.tokenModel.findById(_id).exec();
+  async getById(_id: MongooseSchema.Types.ObjectId) {
+    return await this.tokenModel.findById(_id).exec();
   }
 
   exists(userId: MongooseSchema.Types.ObjectId, token: string): boolean {
@@ -29,7 +29,7 @@ export class TokenService {
     return !!tokenExists;
   }
 
-  delete(userId: MongooseSchema.Types.ObjectId) {
-    return this.tokenModel.findOneAndDelete({ user_id: userId });
+  async delete(userId: MongooseSchema.Types.ObjectId) {
+    return await this.tokenModel.findOneAndDelete({ user_id: userId });
   }
 }
