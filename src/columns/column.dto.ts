@@ -1,13 +1,14 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Schema as MongooseSchema } from 'mongoose';
+import { Board } from 'src/boards/board.schema';
 
 @InputType()
 export class CreateColumnDto {
   @Field()
   title: string;
 
-  @Field(() => String)
-  board_id: string;
+  @Field(() => String || Board, { nullable: true })
+  board: MongooseSchema.Types.ObjectId | Board;
 }
 
 @ObjectType()
@@ -18,6 +19,6 @@ export class ColumnDto {
   @Field()
   title: string;
 
-  @Field(() => String)
-  board_id: string;
+  @Field(() => String || Board, { nullable: true })
+  board: MongooseSchema.Types.ObjectId | Board;
 }

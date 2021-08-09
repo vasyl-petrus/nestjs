@@ -31,7 +31,10 @@ export class ColumnsService {
       .then((res) => res.ok);
   }
 
-  async updateById(id: string, newColumn: CreateColumnDto) {
+  async updateById(
+    id: MongooseSchema.Types.ObjectId,
+    newColumn: CreateColumnDto,
+  ) {
     return this.columnModel.updateOne({ _id: id }, { $set: newColumn });
   }
 }

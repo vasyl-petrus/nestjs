@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { UpdateWriteOpResult } from 'mongoose';
+import { UpdateWriteOpResult, Schema as MongooseSchema } from 'mongoose';
 import { UseGuards } from '@nestjs/common';
 
 import { Column } from './column.schema';
@@ -12,13 +12,13 @@ export class ColumnsResolver {
   constructor(private columnsService: ColumnsService) {}
 
   @Query(() => [Column])
-  @UseGuards(GqlAuthGuard)
+  //@UseGuards(GqlAuthGuard)
   async getAllColumns(): Promise<Column[]> {
     return this.columnsService.getAll();
   }
 
   @Mutation(() => Column)
-  @UseGuards(GqlAuthGuard)
+  //@UseGuards(GqlAuthGuard)
   async createColumn(
     @Args('payload') payload: CreateColumnDto,
   ): Promise<Column> {
@@ -28,7 +28,7 @@ export class ColumnsResolver {
   @Mutation(() => Column)
   @UseGuards(GqlAuthGuard)
   async updateBoard(
-    @Args('id') id: string,
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
     @Args('payload') payload: CreateColumnDto,
   ): Promise<UpdateWriteOpResult> {
     return this.columnsService.updateById(id, payload);
