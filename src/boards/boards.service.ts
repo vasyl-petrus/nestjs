@@ -20,8 +20,8 @@ export class BoardsService {
     return this.boardModel.findById(_id).exec();
   }
 
-  getBoard(payload: Partial<Board>) {
-    return this.boardModel.findOne(payload).exec();
+  getAllBoards() {
+    return this.boardModel.find().exec();
   }
 
   update(id: string, payload: CreateBoardDto) {

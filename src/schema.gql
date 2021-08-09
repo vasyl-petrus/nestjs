@@ -4,11 +4,7 @@
 
 type Board {
   _id: String!
-  title: String!
-}
-
-input BoardDto {
-  _id: String!
+  author(populate: Boolean!): User!
   title: String!
 }
 
@@ -26,6 +22,7 @@ type Column {
 }
 
 input CreateBoardDto {
+  author: String
   title: String!
 }
 
@@ -59,9 +56,10 @@ type Mutation {
 }
 
 type Query {
-  board(payload: BoardDto!): Board!
   getAll: Card!
+  getAllBoards: [Board!]!
   getAllColumns: [Column!]!
+  getBoard(_id: String!): Board!
   getById(id: String!): Card!
   user(_id: String!): User!
 }

@@ -1,24 +1,39 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-
-import { Board } from './board.schema';
-import { CreateBoardDto, BoardDto } from './board.dto';
-import { BoardsService } from './boards.service';
-import { UpdateWriteOpResult } from 'mongoose';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
+import { UpdateWriteOpResult, Schema as MongooseSchema } from 'mongoose';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from 'src/auth/auth.gaurd';
 
-@Resolver()
+import { Board, BoardDocument } from './board.schema';
+import { CreateBoardDto } from './board.dto';
+import { BoardsService } from './boards.service';
+import { GqlAuthGuard } from 'src/auth/auth.gaurd';
+import { User } from 'src/users/user.schema';
+
+@Resolver(() => Board)
 export class BoardsResolver {
   constructor(private boardsService: BoardsService) {}
 
+  @Query(() => [Board])
+  async getAllBoards() {
+    return this.boardsService.getAllBoards();
+  }
+
   @Query(() => Board)
   @UseGuards(GqlAuthGuard)
-  async board(@Args('payload') payload: BoardDto) {
-    return this.boardsService.getBoard(payload);
+  async getBoard(
+    @Args('_id', { type: () => String }) _id: MongooseSchema.Types.ObjectId,
+  ): Promise<Board> {
+    return this.boardsService.getById(_id);
   }
 
   @Mutation(() => Board)
-  @UseGuards(GqlAuthGuard)
+  //@UseGuards(GqlAuthGuard)
   async createBoard(@Args('payload') payload: CreateBoardDto): Promise<Board> {
     return this.boardsService.create(payload);
   }
@@ -30,5 +45,15 @@ export class BoardsResolver {
     @Args('payload') payload: CreateBoardDto,
   ): Promise<UpdateWriteOpResult> {
     return this.boardsService.update(id, payload);
+  }
+
+  @ResolveField()
+  async author(
+    @Parent() board: BoardDocument,
+    @Args('populate') populate: boolean,
+  ) {
+    if (populate)
+      await board.populate({ path: 'users', model: User.name }).execPopulate();
+    return board.author;
   }
 }
