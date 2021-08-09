@@ -1,13 +1,20 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { UpdateWriteOpResult, Schema as MongooseSchema } from 'mongoose';
 import { UseGuards } from '@nestjs/common';
 
-import { Column } from './column.schema';
+import { Column, ColumnDocument } from './column.schema';
 import { CreateColumnDto } from './column.dto';
 import { ColumnsService } from './columns.service';
 import { GqlAuthGuard } from 'src/auth/auth.gaurd';
 
-@Resolver()
+@Resolver(() => Column)
 export class ColumnsResolver {
   constructor(private columnsService: ColumnsService) {}
 
@@ -32,5 +39,11 @@ export class ColumnsResolver {
     @Args('payload') payload: CreateColumnDto,
   ): Promise<UpdateWriteOpResult> {
     return this.columnsService.updateById(id, payload);
+  }
+
+  @ResolveField()
+  async board(@Parent() column: ColumnDocument) {
+    await column.populate('board').execPopulate();
+    return column.board;
   }
 }

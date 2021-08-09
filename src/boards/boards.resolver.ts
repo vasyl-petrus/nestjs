@@ -13,7 +13,6 @@ import { Board, BoardDocument } from './board.schema';
 import { CreateBoardDto } from './board.dto';
 import { BoardsService } from './boards.service';
 import { GqlAuthGuard } from 'src/auth/auth.gaurd';
-import { User } from 'src/users/user.schema';
 
 @Resolver(() => Board)
 export class BoardsResolver {
@@ -49,7 +48,7 @@ export class BoardsResolver {
 
   @ResolveField()
   async author(@Parent() board: BoardDocument) {
-    await board.populate({ path: 'users', model: User.name }).execPopulate();
+    await board.populate('author').execPopulate();
     return board.author;
   }
 }

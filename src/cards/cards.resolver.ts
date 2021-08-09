@@ -13,8 +13,6 @@ import { CreateCardDto } from './card.dto';
 import { CardsService } from './cards.service';
 import { GqlAuthGuard } from 'src/auth/auth.gaurd';
 import { Card, CardDocument } from './card.schema';
-import { User } from 'src/users/user.schema';
-import { Column } from 'src/columns/column.schema';
 
 @Resolver(() => Card)
 export class CardsResolver {
@@ -50,13 +48,13 @@ export class CardsResolver {
 
   @ResolveField()
   async column(@Parent() card: CardDocument) {
-    await card.populate({ path: 'columns', model: Column.name }).execPopulate();
-    return card.author;
+    await card.populate('column').execPopulate();
+    return card.column;
   }
 
   @ResolveField()
   async author(@Parent() card: CardDocument) {
-    await card.populate({ path: 'users', model: User.name }).execPopulate();
+    await card.populate('author').execPopulate();
     return card.author;
   }
 }
