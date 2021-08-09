@@ -21,12 +21,12 @@ export class CardsResolver {
   constructor(private cardsService: CardsService) {}
 
   @Query(() => [Card])
-  //@UseGuards(GqlAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async getAllCards() {
     return this.cardsService.getAll();
   }
   @Query(() => Card)
-  //@UseGuards(GqlAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async getById(
     @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
   ) {
@@ -34,7 +34,7 @@ export class CardsResolver {
   }
 
   @Mutation(() => Card)
-  //@UseGuards(GqlAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async createCard(@Args('payload') payload: CreateCardDto): Promise<Card> {
     return this.cardsService.create(payload);
   }

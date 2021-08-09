@@ -12,13 +12,13 @@ export class ColumnsResolver {
   constructor(private columnsService: ColumnsService) {}
 
   @Query(() => [Column])
-  //@UseGuards(GqlAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async getAllColumns(): Promise<Column[]> {
     return this.columnsService.getAll();
   }
 
   @Mutation(() => Column)
-  //@UseGuards(GqlAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async createColumn(
     @Args('payload') payload: CreateColumnDto,
   ): Promise<Column> {

@@ -33,7 +33,7 @@ export class BoardsResolver {
   }
 
   @Mutation(() => Board)
-  //@UseGuards(GqlAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async createBoard(@Args('payload') payload: CreateBoardDto): Promise<Board> {
     return this.boardsService.create(payload);
   }
