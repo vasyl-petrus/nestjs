@@ -12,7 +12,6 @@ import { TokenService } from 'src/token/token.service';
 import { UserTokenDto } from 'src/token/token.dto';
 import { CreateUserDto, UserDto } from 'src/users/users.dto';
 import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/user.schema';
 
 @Injectable()
 export class AuthService {

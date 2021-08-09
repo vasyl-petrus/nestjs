@@ -20,15 +20,15 @@ export class UsersService {
   }
 
   async update(userId: MongooseSchema.Types.ObjectId, payload: UpdateUserDto) {
-    return this.userModel.updateOne({ _id: userId }, { $set: payload });
+    return await this.userModel.updateOne({ _id: userId }, { $set: payload });
   }
 
-  getById(_id: MongooseSchema.Types.ObjectId) {
-    return this.userModel.findById(_id).exec();
+  async getById(_id: MongooseSchema.Types.ObjectId) {
+    return await this.userModel.findById(_id).exec();
   }
 
-  getByEmail(email: string) {
-    return this.userModel.findOne({ email }).exec();
+  async getByEmail(email: string) {
+    return await this.userModel.findOne({ email }).exec();
   }
 
   async hashPassword(password: string): Promise<string> {
