@@ -4,20 +4,20 @@
 
 type Board {
   _id: String!
-  author(populate: Boolean!): User!
+  author: User!
   title: String!
 }
 
 type Card {
-  _id: String!
-  author_id: String!
-  column_id: String!
-  title: String!
+  _id: String
+  author: User
+  column: Column
+  title: String
 }
 
 type Column {
   _id: String!
-  board_id: String!
+  board: Board
   title: String!
 }
 
@@ -27,13 +27,13 @@ input CreateBoardDto {
 }
 
 input CreateCardDto {
-  author_id: String!
-  column_id: String!
+  author: String
+  column: String
   title: String!
 }
 
 input CreateColumnDto {
-  board_id: String!
+  board: String
   title: String!
 }
 
@@ -56,8 +56,8 @@ type Mutation {
 }
 
 type Query {
-  getAll: Card!
   getAllBoards: [Board!]!
+  getAllCards: [Card!]!
   getAllColumns: [Column!]!
   getBoard(_id: String!): Board!
   getById(id: String!): Card!

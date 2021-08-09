@@ -48,12 +48,8 @@ export class BoardsResolver {
   }
 
   @ResolveField()
-  async author(
-    @Parent() board: BoardDocument,
-    @Args('populate') populate: boolean,
-  ) {
-    if (populate)
-      await board.populate({ path: 'users', model: User.name }).execPopulate();
+  async author(@Parent() board: BoardDocument) {
+    await board.populate({ path: 'users', model: User.name }).execPopulate();
     return board.author;
   }
 }
