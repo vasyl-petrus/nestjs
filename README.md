@@ -1,10 +1,6 @@
 # Simple version of trello on nestjs
 An App for creating cards, board with authorization
 
-## Stack
-- [NestJs](https://nestjs.com/) 
-- [MongoDB](https://www.mongodb.com/) 
-- [GraphQL](https://graphql.org/)
 ## How to run it
 ### Install dependencies
 ```bash
@@ -24,3 +20,8 @@ by default app running on http://localhost:3000/
 
 
 
+
+## Technology Stack
+- [NestJs](https://nestjs.com/) 
+- [MongoDB](https://www.mongodb.com/) 
+- [GraphQL](https://graphql.org/)
