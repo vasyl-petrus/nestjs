@@ -1,4 +1,4 @@
-# Simple version of trello on nestjs
+# Simple trello API on nestjs
 An App for creating cards, board with authorization
 
 ## How to run it
