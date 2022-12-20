@@ -3,6 +3,7 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver } from '@nestjs/apollo';
 
 const defaults = {
   dbUrl: 'mongodb://localhost:27017/nest',
@@ -20,6 +21,7 @@ export const configDbModule = MongooseModule.forRoot(
 );
 
 export const configGraphQModule = GraphQLModule.forRoot({
+  driver: ApolloDriver,
   autoSchemaFile: join(
     process.cwd(),
     process.env.GRAPHQl_SCHEMA_PATH || defaults.graphQlSchemaPath,
