@@ -1,5 +1,4 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { Schema as MongooseSchema } from 'mongoose';
 
 @InputType()
 export class CreateUserDto {
@@ -32,7 +31,7 @@ export class SignInDto {
 @ObjectType()
 export class UserDto {
   @Field(() => String)
-  _id: MongooseSchema.Types.ObjectId;
+  id: string;
   @Field()
   first_name: string;
   @Field()
