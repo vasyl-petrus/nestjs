@@ -1,34 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { Model, Schema as MongooseSchema } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
 
 import { CreateBoardDto } from './board.dto';
-import { Board, BoardDocument } from './board.schema';
+import Board from 'src/boards/board.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BoardsService {
   constructor(
-    @InjectModel(Board.name) private boardModel: Model<BoardDocument>,
+    @InjectRepository(Board) private boardRepository: Repository<Board>,
   ) {}
 
   create(payload: CreateBoardDto) {
-    const createdBoard = new this.boardModel(payload);
-    return createdBoard.save();
+    const createdBoard = this.boardRepository.save(payload);
+    return createdBoard;
   }
 
-  getById(_id: MongooseSchema.Types.ObjectId) {
-    return this.boardModel.findById(_id).exec();
+  getById(id: string) {
+    return this.boardRepository.findOneBy({ id });
   }
 
   getAllBoards() {
-    return this.boardModel.find().exec();
+    return this.boardRepository.find();
   }
 
   update(id: string, payload: CreateBoardDto) {
-    return this.boardModel.updateOne({ _id: id }, { $set: payload });
+    return this.boardRepository.update({ id }, payload);
   }
 
-  delete(_id: MongooseSchema.Types.ObjectId) {
-    return this.boardModel.findByIdAndDelete(_id).exec();
+  delete(id: string) {
+    return this.boardRepository.softDelete(id);
   }
 }

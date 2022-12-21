@@ -1,18 +1,11 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
-import { UpdateWriteOpResult, Schema as MongooseSchema } from 'mongoose';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
-import { Column, ColumnDocument } from './column.schema';
+import Column from './column.entity';
 import { CreateColumnDto } from './column.dto';
 import { ColumnsService } from './columns.service';
 import { GqlAuthGuard } from 'src/auth/auth.gaurd';
+import { UpdateResult } from 'typeorm';
 
 @Resolver(() => Column)
 export class ColumnsResolver {
@@ -35,15 +28,9 @@ export class ColumnsResolver {
   @Mutation(() => Column)
   @UseGuards(GqlAuthGuard)
   async updateBoard(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @Args('id', { type: () => String }) id: string,
     @Args('payload') payload: CreateColumnDto,
-  ): Promise<UpdateWriteOpResult> {
+  ): Promise<UpdateResult> {
     return this.columnsService.updateById(id, payload);
-  }
-
-  @ResolveField()
-  async board(@Parent() column: ColumnDocument) {
-    await column.populate('board').execPopulate();
-    return column.board;
   }
 }

@@ -1,34 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema as MongooseSchema } from 'mongoose';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { CreateCardDto } from './card.dto';
-import { Card, CardDocument } from './card.schema';
+import Card from './card.entity';
 
 @Injectable()
 export class CardsService {
-  constructor(@InjectModel(Card.name) private cardModel: Model<CardDocument>) {}
+  constructor(
+    @InjectRepository(Card) private cardRepository: Repository<Card>,
+  ) {}
 
-  async getAll(): Promise<CardDocument[]> {
-    return await this.cardModel.find().exec();
+  async getAll(): Promise<Card[]> {
+    return await this.cardRepository.find();
   }
 
-  async getById(_id: MongooseSchema.Types.ObjectId): Promise<CardDocument> {
-    return this.cardModel.findById(_id).exec();
+  async getById(id: string): Promise<Card> {
+    return this.cardRepository.findOneBy({ id });
   }
 
-  async create(card: CreateCardDto): Promise<CardDocument> {
-    const newCard = new this.cardModel(card);
-    return await newCard.save();
+  async create(card: CreateCardDto): Promise<Card> {
+    return await this.cardRepository.save(card);
   }
 
-  async deleteById(id: MongooseSchema.Types.ObjectId): Promise<number> {
-    return this.cardModel
-      .remove({ _id: id })
-      .exec()
-      .then((res) => res.ok);
+  async deleteById(id: string): Promise<UpdateResult> {
+    return this.cardRepository.softDelete({ id });
   }
 
-  async updateById(id: MongooseSchema.Types.ObjectId, newCard: CreateCardDto) {
-    return this.cardModel.updateOne({ _id: id }, { $set: newCard });
+  async updateById(id: string, newCard: CreateCardDto) {
+    return this.cardRepository.update({ id }, newCard);
   }
 }

@@ -1,40 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema as MongooseSchema } from 'mongoose';
 
-import { Column, ColumnDocument } from './column.schema';
+import Column from './column.entity';
 import { CreateColumnDto } from './column.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class ColumnsService {
   constructor(
-    @InjectModel(Column.name) private columnModel: Model<ColumnDocument>,
+    @InjectRepository(Column) private columnRepository: Repository<Column>,
   ) {}
 
   async getAll(): Promise<Column[]> {
-    return await this.columnModel.find().exec();
+    return await this.columnRepository.find();
   }
 
-  async getById(id: MongooseSchema.Types.ObjectId): Promise<Column> {
-    return this.columnModel.findById(id).exec();
+  async getById(id: string): Promise<Column> {
+    return this.columnRepository.findOneBy({ id });
   }
 
   async createColumn(column: CreateColumnDto): Promise<Column> {
-    const newColumn = new this.columnModel(column);
-    return await newColumn.save();
+    return await this.columnRepository.save(column);
   }
 
-  async deleteById(id: MongooseSchema.Types.ObjectId): Promise<number> {
-    return this.columnModel
-      .remove({ _id: id })
-      .exec()
-      .then((res) => res.ok);
+  async deleteById(id: string): Promise<UpdateResult> {
+    return await this.columnRepository.softDelete({ id });
   }
 
-  async updateById(
-    id: MongooseSchema.Types.ObjectId,
-    newColumn: CreateColumnDto,
-  ) {
-    return this.columnModel.updateOne({ _id: id }, { $set: newColumn });
+  async updateById(id: string, newColumn: CreateColumnDto) {
+    return this.columnRepository.update({ id }, newColumn);
   }
 }

@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 
 import { CardsService } from './cards.service';
-import { Card, CardSchema } from './card.schema';
+import Card from './card.entity';
 import { CardsResolver } from './cards.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Card.name, schema: CardSchema }]),
-  ],
+  imports: [TypeOrmModule.forFeature([Card])],
   providers: [CardsService, CardsResolver],
   exports: [CardsService],
 })

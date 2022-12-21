@@ -1,5 +1,4 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { Schema as MongooseSchema } from 'mongoose';
 
 @InputType()
 export class CreateBoardDto {
@@ -7,17 +6,17 @@ export class CreateBoardDto {
   title: string;
 
   @Field(() => String, { nullable: true })
-  readonly author: MongooseSchema.Types.ObjectId;
+  readonly author: string;
 }
 
 @ObjectType()
 export class BoardDto {
   @Field(() => String)
-  readonly _id: MongooseSchema.Types.ObjectId;
+  readonly id: string;
 
   @Field()
   title: string;
 
   @Field(() => String, { nullable: true })
-  readonly author: MongooseSchema.Types.ObjectId;
+  readonly author: string;
 }

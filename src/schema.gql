@@ -2,6 +2,38 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type BoardEntity {
+  author: String!
+  title: String!
+}
+
+type CardEntity {
+  author: String!
+  column: String!
+  title: String!
+}
+
+type ColumnEntity {
+  board: String!
+  title: String!
+}
+
+input CreateBoardDto {
+  author: String
+  title: String!
+}
+
+input CreateCardDto {
+  author: String
+  column: String
+  title: String!
+}
+
+input CreateColumnDto {
+  board: String
+  title: String!
+}
+
 input CreateUserDto {
   email: String!
   first_name: String!
@@ -15,12 +47,22 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Mutation {
+  createBoard(payload: CreateBoardDto!): BoardEntity!
+  createCard(payload: CreateCardDto!): CardEntity!
+  createColumn(payload: CreateColumnDto!): ColumnEntity!
   signIn(payload: SignInDto!): UserDto!
   signUp(payload: CreateUserDto!): UserEntity!
+  updateBoard(id: String!, payload: CreateColumnDto!): ColumnEntity!
+  updateCard(id: String!, payload: CreateCardDto!): CardEntity!
   updateUser(payload: UpdateUserDto!): UserEntity!
 }
 
 type Query {
+  getAllBoards: [BoardEntity!]!
+  getAllCards: [CardEntity!]!
+  getAllColumns: [ColumnEntity!]!
+  getBoard(id: String!): BoardEntity!
+  getById(id: String!): CardEntity!
   user(id: String!): UserEntity!
 }
 
@@ -51,6 +93,7 @@ type UserDto {
 }
 
 type UserEntity {
+  boards: [BoardEntity!]!
   email: String!
   first_name: String!
   last_name: String!

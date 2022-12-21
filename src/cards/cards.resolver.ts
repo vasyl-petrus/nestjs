@@ -1,18 +1,11 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
-import { UpdateWriteOpResult, Schema as MongooseSchema } from 'mongoose';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
 import { CreateCardDto } from './card.dto';
 import { CardsService } from './cards.service';
 import { GqlAuthGuard } from 'src/auth/auth.gaurd';
-import { Card, CardDocument } from './card.schema';
+import Card from './card.entity';
+import { UpdateResult } from 'typeorm';
 
 @Resolver(() => Card)
 export class CardsResolver {
@@ -25,9 +18,7 @@ export class CardsResolver {
   }
   @Query(() => Card)
   @UseGuards(GqlAuthGuard)
-  async getById(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
-  ) {
+  async getById(@Args('id', { type: () => String }) id: string) {
     return this.cardsService.getById(id);
   }
 
@@ -40,21 +31,9 @@ export class CardsResolver {
   @Mutation(() => Card)
   @UseGuards(GqlAuthGuard)
   async updateCard(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @Args('id', { type: () => String }) id: string,
     @Args('payload') payload: CreateCardDto,
-  ): Promise<UpdateWriteOpResult> {
+  ): Promise<UpdateResult> {
     return this.cardsService.updateById(id, payload);
-  }
-
-  @ResolveField()
-  async column(@Parent() card: CardDocument) {
-    await card.populate('column').execPopulate();
-    return card.column;
-  }
-
-  @ResolveField()
-  async author(@Parent() card: CardDocument) {
-    await card.populate('author').execPopulate();
-    return card.author;
   }
 }

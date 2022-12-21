@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 
-import { Column, ColumnSchema } from './column.schema';
+import Column from './column.entity';
 import { ColumnsService } from './columns.service';
 import { ColumnsResolver } from './columns.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Column.name, schema: ColumnSchema }]),
-  ],
+  imports: [TypeOrmModule.forFeature([Column])],
   providers: [ColumnsService, ColumnsResolver],
 })
 export class ColumnsModule {}

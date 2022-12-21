@@ -1,18 +1,11 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
-import { UpdateWriteOpResult, Schema as MongooseSchema } from 'mongoose';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
-import { Board, BoardDocument } from './board.schema';
+import Board from 'src/boards/board.entity';
 import { CreateBoardDto } from './board.dto';
 import { BoardsService } from './boards.service';
 import { GqlAuthGuard } from 'src/auth/auth.gaurd';
+import { UpdateResult } from 'typeorm';
 
 @Resolver(() => Board)
 export class BoardsResolver {
@@ -26,9 +19,9 @@ export class BoardsResolver {
   @Query(() => Board)
   @UseGuards(GqlAuthGuard)
   async getBoard(
-    @Args('_id', { type: () => String }) _id: MongooseSchema.Types.ObjectId,
+    @Args('id', { type: () => String }) id: string,
   ): Promise<Board> {
-    return this.boardsService.getById(_id);
+    return this.boardsService.getById(id);
   }
 
   @Mutation(() => Board)
@@ -42,13 +35,7 @@ export class BoardsResolver {
   async updateBoard(
     @Args('id') id: string,
     @Args('payload') payload: CreateBoardDto,
-  ): Promise<UpdateWriteOpResult> {
+  ): Promise<UpdateResult> {
     return this.boardsService.update(id, payload);
-  }
-
-  @ResolveField()
-  async author(@Parent() board: BoardDocument) {
-    await board.populate('author').execPopulate();
-    return board.author;
   }
 }
