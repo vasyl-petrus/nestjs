@@ -1,7 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Schema as MongooseSchema } from 'mongoose';
 import { Column } from 'src/columns/column.schema';
-import { User } from 'src/users/user.schema';
+import User from '../users/user.entity';
 
 @InputType()
 export class CreateCardDto {

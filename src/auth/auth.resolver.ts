@@ -1,15 +1,11 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { User } from '../users/user.schema';
+import User from '../users/user.entity';
 import { CreateUserDto, SignInDto, UserDto } from '../users/users.dto';
-import { UsersService } from 'src/users/users.service';
 
 @Resolver()
 export class AuthResolver {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Mutation(() => UserDto)
   async signIn(@Args('payload') { email, password }: SignInDto) {

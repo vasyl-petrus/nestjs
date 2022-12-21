@@ -3,6 +3,12 @@ import BaseEntity from '../common/BaseEntity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import User from '../users/user.entity';
 
+export enum TokenTypesEnum {
+  auth = 'auth',
+  confirmEmail = 'confirm_email',
+  forgotPassword = 'forgot_password',
+}
+
 type TokenTypes = 'forgot_password' | 'confirm_email' | 'auth';
 
 @ObjectType()
@@ -13,7 +19,7 @@ class TokenEntity extends BaseEntity {
   @Field()
   @JoinColumn({ name: 'user_id' })
   @ManyToOne(() => User, (user) => user.id)
-  user_id: number;
+  user_id: string;
 
   @Field()
   @Column()

@@ -4,12 +4,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BoardsService } from './boards.service';
 import { Board, BoardSchema } from './board.schema';
 import { BoardsResolver } from './boards.resolver';
-import { User, UserSchema } from 'src/users/user.schema';
+import User from '../users/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Board.name, schema: BoardSchema }]),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    TypeOrmModule.forFeature([User]),
   ],
   providers: [BoardsService, BoardsResolver],
 })

@@ -2,41 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Board {
-  _id: String!
-  author: User!
-  title: String!
-}
-
-type Card {
-  _id: String
-  author: User
-  column: Column
-  title: String
-}
-
-type Column {
-  _id: String!
-  board: Board
-  title: String!
-}
-
-input CreateBoardDto {
-  author: String
-  title: String!
-}
-
-input CreateCardDto {
-  author: String
-  column: String
-  title: String!
-}
-
-input CreateColumnDto {
-  board: String
-  title: String!
-}
-
 input CreateUserDto {
   email: String!
   first_name: String!
@@ -44,24 +9,19 @@ input CreateUserDto {
   password: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Mutation {
-  createBoard(payload: CreateBoardDto!): Board!
-  createCard(payload: CreateCardDto!): Card!
-  createColumn(payload: CreateColumnDto!): Column!
   signIn(payload: SignInDto!): UserDto!
-  signUp(payload: CreateUserDto!): User!
-  updateBoard(id: String!, payload: CreateColumnDto!): Column!
-  updateCard(id: String!, payload: CreateCardDto!): Card!
-  updateUser(payload: UpdateUserDto!): User!
+  signUp(payload: CreateUserDto!): UserEntity!
+  updateUser(payload: UpdateUserDto!): UserEntity!
 }
 
 type Query {
-  getAllBoards: [Board!]!
-  getAllCards: [Card!]!
-  getAllColumns: [Column!]!
-  getBoard(_id: String!): Board!
-  getById(id: String!): Card!
-  user(_id: String!): User!
+  user(id: String!): UserEntity!
 }
 
 input SignInDto {
@@ -69,24 +29,31 @@ input SignInDto {
   password: String!
 }
 
+type TokenEntity {
+  expires_at: DateTime!
+  token: String!
+  type: String!
+  user_id: String!
+}
+
 input UpdateUserDto {
   first_name: String!
   last_name: String!
 }
 
-type User {
-  _id: String!
-  email: String!
-  first_name: String!
-  last_name: String!
-  password: String!
-}
-
 type UserDto {
-  _id: String!
   email: String!
   first_name: String!
+  id: String!
   last_name: String!
   password: String!
   token: String!
+}
+
+type UserEntity {
+  email: String!
+  first_name: String!
+  last_name: String!
+  password: String!
+  tokens: [TokenEntity!]!
 }

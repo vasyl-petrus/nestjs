@@ -12,6 +12,7 @@ import { TokenService } from 'src/token/token.service';
 import { UserTokenDto } from 'src/token/token.dto';
 import { CreateUserDto, UserDto } from 'src/users/users.dto';
 import { UsersService } from 'src/users/users.service';
+import { TokenTypesEnum } from 'src/token/token.entity';
 
 @Injectable()
 export class AuthService {
@@ -45,6 +46,7 @@ export class AuthService {
         token,
         user_id: user.id,
         expires_at: expiresAt,
+        type: TokenTypesEnum.auth,
       });
       delete user.password;
 

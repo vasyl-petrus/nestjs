@@ -1,37 +1,40 @@
 import * as bcrypt from 'bcrypt';
 
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema as MongooseSchema } from 'mongoose';
 
-import { User, UserDocument } from './user.schema';
+import User from './user.entity';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
 
   async create(payload: CreateUserDto) {
     const hash = await this.hashPassword(payload.password);
-    const createdPerson = new this.userModel(
+    const user = await this.userRepository.save(
       Object.assign(payload, { password: hash }),
     );
-    return createdPerson.save();
+
+    return user;
   }
 
-  async update(userId: MongooseSchema.Types.ObjectId, payload: UpdateUserDto) {
-    return await this.userModel.updateOne({ _id: userId }, { $set: payload });
+  async update(userId: string, payload: UpdateUserDto) {
+    return await this.userRepository.update({ id: userId }, payload);
   }
 
-  async getById(_id: MongooseSchema.Types.ObjectId) {
-    return await this.userModel.findById(_id).exec();
+  async getById(userId: string) {
+    return await this.userRepository.findOneBy({ id: userId });
   }
 
   async getByEmail(email: string) {
-    return await this.userModel.findOne({ email }).exec();
+    return await this.userRepository.findOneBy({ email });
   }
 
-  async hashPassword(password: string): Promise<string> {
+  private async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS, 10));
     return await bcrypt.hash(password, salt);
   }

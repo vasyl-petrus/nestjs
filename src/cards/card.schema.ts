@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Column } from 'src/columns/column.schema';
-import { User } from 'src/users/user.schema';
+import User from '../users/user.entity';
 
 @ObjectType()
 @Schema({ collection: 'cards', timestamps: true })

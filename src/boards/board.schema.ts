@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { User } from 'src/users/user.schema';
+import User from '../users/user.entity';
 @ObjectType()
 @Schema({ collection: 'boards', timestamps: true })
 export class Board {
