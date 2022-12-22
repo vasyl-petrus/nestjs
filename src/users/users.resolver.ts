@@ -8,12 +8,14 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { GqlAuthGuard } from 'src/auth/auth.guard';
+import TokenEntity from 'src/token/token.entity';
 import { TokenService } from 'src/token/token.service';
 import { CurrentUser } from './current-user.decorator';
 import User from './user.entity';
 import { UpdateUserDto } from './users.dto';
 import { UsersService } from './users.service';
-@Resolver()
+
+@Resolver(() => User)
 export class UsersResolver {
   constructor(
     private usersService: UsersService,
@@ -35,7 +37,7 @@ export class UsersResolver {
     return this.usersService.update(user.id, payload);
   }
 
-  @ResolveField()
+  @ResolveField(() => [TokenEntity])
   async tokens(@Parent() user: User) {
     const { id } = user;
     return await this.tokenService.getUserTokensById(id);
