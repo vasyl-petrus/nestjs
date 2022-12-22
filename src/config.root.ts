@@ -31,7 +31,7 @@ export const configDbModule = TypeOrmModule.forRoot({
   password: process.env.DB_PASSWORD || defaults.db.password,
   database: process.env.DB_NAME || defaults.db.database,
   entities: ['dist/**/*.entity{.ts,.js}'],
-  synchronize: process.env.NODE_ENV === 'development',
+  synchronize: false,
   autoLoadEntities: true,
 });
 

@@ -18,13 +18,14 @@ export class TokenService {
     return await this.tokenRepository.findBy({ id });
   }
 
-  exists(userId: string, token: string): boolean {
-    const tokenExists = this.tokenRepository.find({
-      relations: ['users'],
-      where: {
-        user_id: userId,
-        token,
-      },
+  async getUserTokensById(userId: string) {
+    return await this.tokenRepository.findBy({ user_id: userId });
+  }
+
+  async exists(userId: string, token: string): Promise<boolean> {
+    const tokenExists = await this.tokenRepository.findOneBy({
+      user_id: userId,
+      token,
     });
 
     return !!tokenExists;

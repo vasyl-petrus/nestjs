@@ -3,7 +3,7 @@ import { UseGuards } from '@nestjs/common';
 
 import { CreateCardDto } from './card.dto';
 import { CardsService } from './cards.service';
-import { GqlAuthGuard } from 'src/auth/auth.gaurd';
+import { GqlAuthGuard } from 'src/auth/auth.guard';
 import Card from './card.entity';
 import { UpdateResult } from 'typeorm';
 

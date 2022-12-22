@@ -4,18 +4,30 @@
 
 type BoardEntity {
   author: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: String!
   title: String!
+  updatedAt: DateTime!
 }
 
 type CardEntity {
   author: String!
   column: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: String!
   title: String!
+  updatedAt: DateTime!
 }
 
 type ColumnEntity {
   board: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: String!
   title: String!
+  updatedAt: DateTime!
 }
 
 input CreateBoardDto {
@@ -63,7 +75,7 @@ type Query {
   getAllColumns: [ColumnEntity!]!
   getBoard(id: String!): BoardEntity!
   getById(id: String!): CardEntity!
-  user(id: String!): UserEntity!
+  user: UserEntity!
 }
 
 input SignInDto {
@@ -72,9 +84,13 @@ input SignInDto {
 }
 
 type TokenEntity {
+  createdAt: DateTime!
+  deletedAt: DateTime!
   expires_at: DateTime!
+  id: String!
   token: String!
   type: String!
+  updatedAt: DateTime!
   user_id: String!
 }
 
@@ -93,10 +109,14 @@ type UserDto {
 }
 
 type UserEntity {
-  boards: [BoardEntity!]!
+  boards: [BoardEntity!]
+  createdAt: DateTime!
+  deletedAt: DateTime!
   email: String!
   first_name: String!
+  id: String!
   last_name: String!
   password: String!
   tokens: [TokenEntity!]!
+  updatedAt: DateTime!
 }

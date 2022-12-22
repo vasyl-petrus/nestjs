@@ -29,7 +29,7 @@ class UserEntity extends BaseEntity {
   @OneToMany(() => Token, (token) => token.user_id)
   tokens: Token[];
 
-  @Field(() => [BoardEntity])
+  @Field(() => [BoardEntity], { nullable: true })
   @OneToMany(() => BoardEntity, (board) => board.author)
   boards: BoardEntity[];
 }

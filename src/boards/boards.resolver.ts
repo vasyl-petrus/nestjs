@@ -4,7 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import Board from 'src/boards/board.entity';
 import { CreateBoardDto } from './board.dto';
 import { BoardsService } from './boards.service';
-import { GqlAuthGuard } from 'src/auth/auth.gaurd';
+import { GqlAuthGuard } from 'src/auth/auth.guard';
 import { UpdateResult } from 'typeorm';
 
 @Resolver(() => Board)

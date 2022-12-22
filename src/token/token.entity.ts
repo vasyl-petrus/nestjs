@@ -17,9 +17,12 @@ type TokenTypes = 'forgot_password' | 'confirm_email' | 'auth';
 })
 class TokenEntity extends BaseEntity {
   @Field()
+  @Column()
+  user_id: string;
+
   @JoinColumn({ name: 'user_id' })
   @ManyToOne(() => User, (user) => user.id)
-  user_id: string;
+  user: User;
 
   @Field()
   @Column()

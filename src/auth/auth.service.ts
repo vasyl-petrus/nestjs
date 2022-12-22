@@ -59,19 +59,6 @@ export class AuthService {
     return this.jwtService.sign(data, options);
   }
 
-  private async verifyToken(token): Promise<any> {
-    try {
-      const data = this.jwtService.verify(token);
-      const tokenExists = await this.tokenService.exists(data.id, token);
-
-      if (tokenExists) return data;
-
-      throw new UnauthorizedException();
-    } catch (error) {
-      throw new UnauthorizedException();
-    }
-  }
-
   private async saveToken(userTokenDto: UserTokenDto) {
     return await this.tokenService.create(userTokenDto);
   }

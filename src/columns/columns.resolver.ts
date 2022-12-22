@@ -4,7 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import Column from './column.entity';
 import { CreateColumnDto } from './column.dto';
 import { ColumnsService } from './columns.service';
-import { GqlAuthGuard } from 'src/auth/auth.gaurd';
+import { GqlAuthGuard } from 'src/auth/auth.guard';
 import { UpdateResult } from 'typeorm';
 
 @Resolver(() => Column)
