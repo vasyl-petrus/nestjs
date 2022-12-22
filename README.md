@@ -10,6 +10,10 @@ npm install
 
 All Environment variables contain in `.env.example`. To set your Environment variables you should `.env.example` rename to `.env.development` and fill in all variables inside
 
+###  Init DB
+```bash
+ npm run init-db && npm run typeorm:run-migrations
+```
 ### Run app
 ```bash
 npm run start:dev
@@ -23,5 +27,6 @@ by default app running on http://localhost:3000/
 
 ## Technology Stack
 - [NestJs](https://nestjs.com/) 
-- [MongoDB](https://www.mongodb.com/) 
+- [TypeORM](https://typeorm.io/) 
+- [MyQSL](https://www.mysql.com/) 
 - [GraphQL](https://graphql.org/)
